@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>シェリア語 描画システム</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f1f5f9;
+      color: #334155;
+      padding: 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 8px;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    input[type="text"] {
+      padding: 8px 12px;
+      font-size: 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      width: 250px;
+    }
+    .canvas-container {
+      text-align: center;
+      background: #ffffff;
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>シェリア語 文字描画システム</h2>
+  
+  <div class="controls">
+    <div class="control-group">
+      <label for="textInput">入力テキスト (ローマ字)</label>
+      <input type="text" id="textInput" value="paf fa" placeholder="例: paf fa">
+    </div>
+    
+    <div class="control-group">
+      <label for="charSize">文字サイズ: <span id="sizeVal">80</span>px</label>
+      <input type="range" id="charSize" min="40" max="150" value="80">
+    </div>
+  </div>
+
+  <div class="canvas-container">
+    <canvas id="sheriaCanvas"></canvas>
+  </div>
+</div>
+
+<script>
+// --- 読み込む画像キー（専用画像 repeat を追加） ---
+const CHAR_KEYS = [
+  'a', 'i', 'u', 'e', 'o',
+  'k', 'g', 'p', 'd', 's',
+  'z', 'h', 'm', 'n', 'r',
+  'f', 'w', 't', 'y',
+  'repeat' // 連続子音用の専用画像 (./png/repeat.png)
+];
+
+const loadedImages = {};
+const VOWELS = ['a', 'i', 'u', 'e', 'o'];
+
+// 1. png フォルダからの自動読み込み処理
+function loadAllImages() {
+  CHAR_KEYS.forEach(key => {
+    const img = new Image();
+    img.src = `./png/${key}.png`;
+    
+    img.onload = () => {
+      loadedImages[key] = img;
+      render();
+    };
+    img.onerror = () => {
+      loadedImages[key] = null;
+      render();
+    };
+  });
+}
+
+// 2. 音節パース (CV, CVC構造への分解)
+function parseToSyllables(text) {
+  const words = text.toLowerCase().split(/\s+/);
+  const resultWords = [];
+
+  for (const word of words) {
+    if (!word) continue;
+    const syllables = [];
+    let i = 0;
+
+    while (i < word.length) {
+      let c1 = '', v = '', c2 = '';
+
+      // 頭子音 C1
+      if (i < word.length && !VOWELS.includes(word[i])) {
+        c1 = word[i];
+        i++;
+      }
+
+      // 母音 V
+      if (i < word.length && VOWELS.includes(word[i])) {
+        v = word[i];
+        i++;
+      }
+
+      // 尾子音 C2 (CVC判定)
+      if (i < word.length && !VOWELS.includes(word[i])) {
+        if (i + 1 >= word.length || !VOWELS.includes(word[i + 1])) {
+          c2 = word[i];
+          i++;
+        }
+      }
+
+      if (c1 || v || c2) {
+        syllables.push({ c1, v, c2 });
+      } else {
+        i++;
+      }
+    }
+    if (syllables.length > 0) resultWords.push(syllables);
+  }
+  return resultWords;
+}
+
+// 3. アスペクト比を維持して描画する機能
+function drawImageFit(ctx, img, x, y, boxWidth, boxHeight) {
+  if (!img) return;
+
+  const scale = Math.min(boxWidth / img.width, boxHeight / img.height);
+  const w = img.width * scale;
+  const h = img.height * scale;
+  const offsetX = x + (boxWidth - w) / 2;
+  const offsetY = y + (boxHeight - h) / 2;
+
+  ctx.drawImage(img, offsetX, offsetY, w, h);
+}
+
+// 4. 音節（CV / CVC）の構造に合わせて画像配置
+function drawSyllable(ctx, syl, x, y, size, useRepeatForC1 = false) {
+  const { c1, v, c2 } = syl;
+
+  // C1（頭子音）の画像決定：連続音フラグが真なら repeat.png を使う
+  const c1Img = useRepeatForC1 ? loadedImages['repeat'] : loadedImages[c1];
+
+  if (c1 && v && c2) {
+    // --- CVC 構造 (左: C1, 右上: V, 右下: C2) ---
+    drawImageFit(ctx, c1Img, x, y, size * 0.52, size);
+    if (v) drawImageFit(ctx, loadedImages[v], x + size * 0.52, y, size * 0.48, size * 0.48);
+    drawImageFit(ctx, loadedImages[c2], x + size * 0.52, y + size * 0.52, size * 0.48, size * 0.48);
+
+  } else if (c1 && v) {
+    // --- CV 構造 (左: C1, 右: V) ---
+    drawImageFit(ctx, c1Img, x, y, size * 0.48, size);
+    drawImageFit(ctx, loadedImages[v], x + size * 0.52, y, size * 0.48, size);
+
+  } else if (v) {
+    // 母音のみ
+    drawImageFit(ctx, loadedImages[v], x, y, size, size);
+
+  } else if (c1) {
+    // 子音のみ
+    drawImageFit(ctx, c1Img, x, y, size, size);
+  }
+}
+
+// 5. 描画メイン処理
+function render() {
+  const canvas = document.getElementById('sheriaCanvas');
+  const ctx = canvas.getContext('2d');
+  const text = document.getElementById('textInput').value;
+  const charSize = parseInt(document.getElementById('charSize').value);
+
+  document.getElementById('sizeVal').innerText = charSize;
+
+  const words = parseToSyllables(text);
+  const gap = charSize * 0.25;
+  const wordGap = charSize * 0.7;
+  const padding = 30;
+
+  let totalWidth = padding * 2;
+  words.forEach((word, wIdx) => {
+    totalWidth += word.length * (charSize + gap) - gap;
+    if (wIdx < words.length - 1) totalWidth += wordGap;
+  });
+
+  if (words.length === 0) totalWidth = 300;
+
+  canvas.width = Math.max(totalWidth, 300);
+  canvas.height = charSize + padding * 2;
+
+  // キャンバスクリア
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 描画実行
+  let currentX = padding;
+  const currentY = padding;
+  let lastConsonant = ''; // 直前の子音を保持する変数
+
+  words.forEach((word, wIdx) => {
+    word.forEach((syl) => {
+      // 直前の子音（C2、またはC2がなければC1）と、現在の頭子音（C1）が一致しているか判定
+      let useRepeatForC1 = false;
+      if (syl.c1 && lastConsonant && syl.c1 === lastConsonant) {
+        useRepeatForC1 = true;
+      }
+
+      // 音節の描画
+      drawSyllable(ctx, syl, currentX, currentY, charSize, useRepeatForC1);
+
+      // 直前の子音状態を更新（C2があればC2、無ければC1）
+      if (syl.c2) {
+        lastConsonant = syl.c2;
+      } else if (syl.c1) {
+        lastConsonant = syl.c1;
+      }
+
+      currentX += charSize + gap;
+    });
+    currentX += wordGap;
+  });
+}
+
+// イベントリスナー設定
+document.getElementById('textInput').addEventListener('input', render);
+document.getElementById('charSize').addEventListener('input', render);
+
+// 自動読み込み開始
+loadAllImages();
+</script>
+
+</body>
+</html>
