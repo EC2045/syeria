@@ -94,7 +94,7 @@ const VOWELS = ['a', 'i', 'u', 'e', 'o'];
 function loadAllImages() {
   CHAR_KEYS.forEach(key => {
     const img = new Image();
-    img.src = `./png/${key}.png`;
+    img.src = `./png/${key.toUpperCase()}.png`;
     
     img.onload = () => {
       loadedImages[key] = img;
