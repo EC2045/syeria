@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シェリア語</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Noto Sans JP -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* カスタムフォント (font.ttf) の設定 */
+        @font-face {
+            font-family: 'CustomLanguageFont';
+            src: url('font.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* 例文セクション用フォント適用クラス */
+        .custom-language-font {
+            font-family: 'CustomLanguageFont', 'Inter', 'Noto Sans JP', sans-serif;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white text-neutral-900 antialiased selection:bg-neutral-900 selection:text-white">
+
+    <!-- ヘッダー / ナビゲーション -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-neutral-200">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="font-semibold text-base tracking-wider uppercase text-neutral-900">シェリア語</span>
+            </div>
+            
+            <!-- デスクトップナビゲーション -->
+            <nav class="hidden md:flex space-x-8 text-xs tracking-widest uppercase font-medium text-neutral-500">
+                <a href="#home" class="hover:text-black transition-colors duration-150">HOME</a>
+                <a href="#about" class="hover:text-black transition-colors duration-150">説明</a>
+                <a href="#grammar" class="hover:text-black transition-colors duration-150">文法</a>
+                <a href="#examples" class="hover:text-black transition-colors duration-150">例文</a>
+            </nav>
+
+            <!-- モバイルメニューボタン -->
+            <button id="mobile-menu-btn" aria-label="Toggle Navigation Menu" class="md:hidden p-1.5 text-neutral-600 hover:text-black focus:outline-none">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- モバイルナビゲーション -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-neutral-200 px-6 py-4 space-y-3 uppercase tracking-wider text-xs font-medium text-neutral-600">
+            <a href="#home" class="block py-1 hover:text-black">HOME</a>
+            <a href="#about" class="block py-1 hover:text-black">説明</a>
+            <a href="#grammar" class="block py-1 hover:text-black">文法</a>
+            <a href="#examples" class="block py-1 hover:text-black">例文</a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 space-y-24 py-16">
+
+        <!-- 1. HOME セクション -->
+        <section id="home" class="min-h-[50vh] flex flex-col justify-center items-start pt-10 border-b border-neutral-200 pb-20">
+            <span class="text-xs font-mono text-neutral-400 uppercase tracking-widest mb-4">Constructed Language Overview</span>
+            <h1 class="text-4xl sm:text-6xl font-light tracking-tight text-neutral-900 mb-6 leading-tight">
+                シェリア語
+            </h1>
+            <p class="text-base sm:text-lg text-neutral-600 max-w-xl leading-relaxed mb-10 font-light">
+                人工言語「シェリア語」の文法仕様および例文をまとめた公式リファレンスサイトです。
+            </p>
+            <div class="flex space-x-6 text-xs tracking-widest uppercase font-medium">
+                <a href="#about" class="px-5 py-2.5 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white transition-colors duration-200">
+                    言語について
+                </a>
+                <a href="#grammar" class="px-5 py-2.5 text-neutral-500 hover:text-black transition-colors duration-200 self-center">
+                    文法を見る →
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. 説明 セクション -->
+        <section id="about" class="scroll-mt-24 space-y-8">
+            <div class="border-b border-neutral-200 pb-3 flex items-baseline justify-between">
+                <h2 class="text-xl font-medium tracking-tight text-neutral-900">説明</h2>
+                <span class="text-xs font-mono text-neutral-400">01 / ABOUT</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-3">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-neutral-800">
+                        概要
+                    </h3>
+                    <p class="text-neutral-600 leading-relaxed text-sm font-light">
+                        シェリア語は独自の語順（OSV）や時制・相システムを備えた人工言語です。明確な構文ルールと規則的な格変化を特徴とします。
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-neutral-800">
+                        主な特徴
+                    </h3>
+                    <ul class="space-y-2 text-neutral-600 text-sm font-light">
+                        <li class="flex items-start">
+                            <span class="mr-2 text-neutral-400">—</span>
+                            <span>基本語順: OSV (目的語 + 主語 + 動詞)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-neutral-400">—</span>
+                            <span>否定・疑問の明瞭な作用範囲と形式</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2 text-neutral-400">—</span>
+                            <span>相 (文頭) と時制 (文末) による独立した動作表現</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 文法 セクション -->
+        <section id="grammar" class="scroll-mt-24 space-y-12">
+            <div class="border-b border-neutral-200 pb-3 flex items-baseline justify-between">
+                <h2 class="text-xl font-medium tracking-tight text-neutral-900">文法 (シェリア語 文法・現在版)</h2>
+                <span class="text-xs font-mono text-neutral-400">02 / GRAMMAR</span>
+            </div>
+
+            <!-- 1. 発音 -->
+            <div class="space-y-4">
+                <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">1. 発音</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm font-light text-neutral-600">
+                    <div class="p-3 bg-neutral-50 border border-neutral-200">
+                        <span class="block text-xs font-mono text-neutral-400 mb-1">母音</span>
+                        <span class="font-mono text-neutral-800">a, i, ɯ, e, o, y</span>
+                    </div>
+                    <div class="p-3 bg-neutral-50 border border-neutral-200">
+                        <span class="block text-xs font-mono text-neutral-400 mb-1">子音</span>
+                        <span class="font-mono text-neutral-800">k, g, p, d, s, z, h, m, n, ɾ, y, w, ɸ, t</span>
+                    </div>
+                    <div class="p-3 bg-neutral-50 border border-neutral-200">
+                        <span class="block text-xs font-mono text-neutral-400 mb-1">基本音節</span>
+                        <span class="font-mono text-neutral-800">CV, CVC</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 固有名詞 & 3. 語順 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-3">
+                    <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">2. 固有名詞</h3>
+                    <p class="text-neutral-600 text-sm font-light">固有名詞の前に <code class="font-mono bg-neutral-100 px-1.5 py-0.5 rounded">ki</code> を置きます（シェリア語風に発音・変換する意思表示）。</p>
+                    <div class="p-3 bg-neutral-50 border border-neutral-200 font-mono text-xs text-neutral-800">
+                        ki + 固有名詞
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">3. 語順</h3>
+                    <p class="text-neutral-600 text-sm font-light">基本語順は <strong>OSV</strong> (目的語 + 主語 + 動詞) です。</p>
+                    <div class="p-3 bg-neutral-50 border border-neutral-200 font-mono text-xs text-neutral-800">
+                        O S V
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 否定 & 5. 疑問文 -->
+            <div class="space-y-6">
+                <div class="space-y-3">
+                    <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">4. 否定</h3>
+                    <p class="text-neutral-600 text-sm font-light">
+                        否定は <code class="font-mono bg-neutral-100 px-1">su</code> を使用し、動詞の直前に置きます（全否定: <code class="font-mono text-xs">O S su V</code>）。<code class="font-mono bg-neutral-100 px-1">su</code> は右方向に作用し、カンマ <code class="font-mono bg-neutral-100 px-1">,</code> で作用範囲が終了します。
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">5. 疑問文 & 6. Yes/No疑問文</h3>
+                    <p class="text-neutral-600 text-sm font-light">
+                        正式表記は <code class="font-mono bg-neutral-100 px-1">¿ ～ ?</code>、簡易表記は <code class="font-mono bg-neutral-100 px-1">～ ?</code> を使用します。
+                    </p>
+                    <div class="p-4 bg-neutral-50 border border-neutral-200 space-y-2 text-xs font-mono text-neutral-800">
+                        <div>¿ O S V su V ?  <span class="text-neutral-500 font-sans">（SはOをVするか、しないか？）</span></div>
+                        <div class="text-neutral-500 font-sans pl-4">例: ¿ paf fa kam su kam ?（私はリンゴを食べますか？）</div>
+                        <div>¿ O S su V su V ? <span class="text-neutral-500 font-sans">（SはOをVしないのか、それともVするのか？）</span></div>
+                        <div class="pt-2 border-t border-neutral-200 text-neutral-600 font-sans">
+                            返答: 肯定 = <code class="font-mono text-black">ya.</code> / 否定 = <code class="font-mono text-black">su.</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. 感嘆文 & 14. 命令文 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-3">
+                    <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">7. 感嘆文</h3>
+                    <p class="text-neutral-600 text-sm font-light">正式表記: <code class="font-mono bg-neutral-100 px-1">¡ ～ !</code> / 簡易表記: <code class="font-mono bg-neutral-100 px-1">～ !</code> (語順 OSV)</p>
+                </div>
+                <div class="space-y-3">
+                    <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">14. 命令文</h3>
+                    <p class="text-neutral-600 text-sm font-light">文頭に <code class="font-mono bg-neutral-100 px-1">raf</code> を置く (<code class="font-mono text-xs">raf O S V!</code>)。<code class="font-mono bg-neutral-100 px-1">su</code> 併用で禁止を表す。</p>
+                </div>
+            </div>
+
+            <!-- 8. 時制 & 9. 相 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 時制 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">8. 時制 (文末に配置)</h3>
+                    <p class="text-xs text-neutral-500 font-mono">mi- + [CV]</p>
+                    <table class="w-full text-xs text-left border border-neutral-200">
+                        <thead class="bg-neutral-100 border-b border-neutral-200 text-neutral-700">
+                            <tr><th class="p-2 border-r border-neutral-200">マーカー</th><th class="p-2">意味</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-neutral-200 text-neutral-600">
+                            <tr><td class="p-2 font-mono border-r border-neutral-200">misa</td><td class="p-2">現在・普遍の真理 (省略可)</td></tr>
+                            <tr><td class="p-2 font-mono border-r border-neutral-200">mika</td><td class="p-2">過去（～した）</td></tr>
+                            <tr><td class="p-2 font-mono border-r border-neutral-200">mito</td><td class="p-2">未来（～するだろう）</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 相 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">9. 相 (文頭に配置)</h3>
+                    <p class="text-xs text-neutral-500 font-mono">ri- + [CV]</p>
+                    <table class="w-full text-xs text-left border border-neutral-200">
+                        <thead class="bg-neutral-100 border-b border-neutral-200 text-neutral-700">
+                            <tr><th class="p-2 border-r border-neutral-200">マーカー</th><th class="p-2">意味</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-neutral-200 text-neutral-600 font-mono">
+                            <tr><td class="p-2 border-r border-neutral-200">rina</td><td class="p-2 font-sans">進行（～している最中）</td></tr>
+                            <tr><td class="p-2 border-r border-neutral-200">rima</td><td class="p-2 font-sans">完了（～し終えた）</td></tr>
+                            <tr><td class="p-2 border-r border-neutral-200">ripo</td><td class="p-2 font-sans">開始（～し始める）</td></tr>
+                            <tr><td class="p-2 border-r border-neutral-200">rito</td><td class="p-2 font-sans">経験（～したことがある）</td></tr>
+                            <tr><td class="p-2 border-r border-neutral-200">rita</td><td class="p-2 font-sans">可能（～することが出来る）</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 10. 格変化 -->
+            <div class="space-y-3">
+                <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">10. 格変化</h3>
+                <p class="text-xs text-neutral-500 leading-relaxed">
+                    対格は語末に <code class="font-mono text-black">-nü</code>、属格は語末に <code class="font-mono text-black">-në</code> を付ける（混同防止のためウムラウトを使用。発音上の変化なし）。
+                </p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border border-neutral-200 font-mono">
+                        <thead class="bg-neutral-100 border-b border-neutral-200 text-neutral-700 font-sans">
+                            <tr>
+                                <th class="p-2 border-r border-neutral-200">人称</th>
+                                <th class="p-2 border-r border-neutral-200">主格</th>
+                                <th class="p-2 border-r border-neutral-200">対格 (-nü)</th>
+                                <th class="p-2">属格 (-në)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-neutral-200 text-neutral-700">
+                            <tr><td class="p-2 font-sans border-r border-neutral-200">私</td><td class="p-2 border-r border-neutral-200">fa</td><td class="p-2 border-r border-neutral-200">fanü</td><td class="p-2">fanë</td></tr>
+                            <tr><td class="p-2 font-sans border-r border-neutral-200">私たち</td><td class="p-2 border-r border-neutral-200">ra fa</td><td class="p-2 border-r border-neutral-200">ra fanü</td><td class="p-2">ra fanë</td></tr>
+                            <tr><td class="p-2 font-sans border-r border-neutral-200">あなた</td><td class="p-2 border-r border-neutral-200">tu</td><td class="p-2 border-r border-neutral-200">tunü</td><td class="p-2">tunë</td></tr>
+                            <tr><td class="p-2 font-sans border-r border-neutral-200">あなたたち</td><td class="p-2 border-r border-neutral-200">ra tu</td><td class="p-2 border-r border-neutral-200">ra tunü</td><td class="p-2">ra tunë</td></tr>
+                            <tr><td class="p-2 font-sans border-r border-neutral-200">彼</td><td class="p-2 border-r border-neutral-200">ni</td><td class="p-2 border-r border-neutral-200">ninü</td><td class="p-2">ninë</td></tr>
+                            <tr><td class="p-2 font-sans border-r border-neutral-200">彼ら</td><td class="p-2 border-r border-neutral-200">ra ni</td><td class="p-2 border-r border-neutral-200">ra ninü</td><td class="p-2">ra ninë</td></tr>
+                            <tr><td class="p-2 font-sans border-r border-neutral-200">彼女</td><td class="p-2 border-r border-neutral-200">mi</td><td class="p-2 border-r border-neutral-200">minü</td><td class="p-2">minë</td></tr>
+                            <tr><td class="p-2 font-sans border-r border-neutral-200">彼女ら</td><td class="p-2 border-r border-neutral-200">ra mi</td><td class="p-2 border-r border-neutral-200">ra minü</td><td class="p-2">ra minë</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- その他の主要文法ルール -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                <div class="p-4 bg-neutral-50 border border-neutral-200 space-y-2">
+                    <h4 class="font-semibold text-neutral-800 text-xs uppercase tracking-wider">11. 複数形</h4>
+                    <p class="text-neutral-600 text-xs font-light">名詞の前に <code class="font-mono text-black">ra</code> を置く（修飾関係）。</p>
+                    <div class="font-mono text-xs text-neutral-700">ra [名詞]</div>
+                </div>
+
+                <div class="p-4 bg-neutral-50 border border-neutral-200 space-y-2">
+                    <h4 class="font-semibold text-neutral-800 text-xs uppercase tracking-wider">12. 条件文</h4>
+                    <p class="text-neutral-600 text-xs font-light">前件と本文の間に <code class="font-mono text-black">fat</code> を置く。</p>
+                    <div class="font-mono text-xs text-neutral-700">[前文] fat [本文]</div>
+                </div>
+
+                <div class="p-4 bg-neutral-50 border border-neutral-200 space-y-2">
+                    <h4 class="font-semibold text-neutral-800 text-xs uppercase tracking-wider">13. 疑問代名詞</h4>
+                    <p class="text-neutral-600 text-xs font-light">不明要素を <code class="font-mono text-black">muka</code> に置き換える（疑問文のみ）。</p>
+                    <div class="font-mono text-xs text-neutral-700">muka fa kam? <span class="font-sans text-neutral-500">（私は何を食べる？）</span></div>
+                </div>
+
+                <div class="p-4 bg-neutral-50 border border-neutral-200 space-y-2">
+                    <h4 class="font-semibold text-neutral-800 text-xs uppercase tracking-wider">15. 装飾詞</h4>
+                    <p class="text-neutral-600 text-xs font-light">副詞・形容詞・数字を包括。修飾対象の前に置く。</p>
+                    <div class="font-mono text-xs text-neutral-700">装飾詞 + 修飾対象</div>
+                </div>
+
+                <div class="p-4 bg-neutral-50 border border-neutral-200 space-y-2">
+                    <h4 class="font-semibold text-neutral-800 text-xs uppercase tracking-wider">16. コピュラ</h4>
+                    <p class="text-neutral-600 text-xs font-light">「～である」を表す（存在 ren と区別）。</p>
+                    <div class="font-mono text-xs text-neutral-700">A mariza B.</div>
+                </div>
+
+                <div class="p-4 bg-neutral-50 border border-neutral-200 space-y-2">
+                    <h4 class="font-semibold text-neutral-800 text-xs uppercase tracking-wider">17. 接続詞</h4>
+                    <p class="text-neutral-600 text-xs font-light"><code class="font-mono text-black">kara</code> (そして), <code class="font-mono text-black">kari</code> (しかし), <code class="font-mono text-black">kare</code> (または), <code class="font-mono text-black">karo</code> (だから)</p>
+                    <div class="font-mono text-xs text-neutral-700">[前文] [接続詞] [文]</div>
+                </div>
+            </div>
+
+            <!-- 18. 存在文 & 19. 場所 & 20. 所有 -->
+            <div class="space-y-4">
+                <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">18〜20. 存在文・場所・所有構文</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                    <div class="p-3 border border-neutral-200 space-y-1">
+                        <span class="font-semibold text-neutral-800 block">存在文</span>
+                        <div class="font-mono text-neutral-700">S ren.</div>
+                        <div class="text-neutral-500 font-mono">paf ren. <span class="font-sans">(りんごがある)</span></div>
+                    </div>
+                    <div class="p-3 border border-neutral-200 space-y-1">
+                        <span class="font-semibold text-neutral-800 block">場所表現</span>
+                        <div class="font-mono text-neutral-700">場所 S ren.</div>
+                        <div class="text-neutral-500 font-mono">ie paf ren. <span class="font-sans">(りんごは家にある)</span></div>
+                    </div>
+                    <div class="p-3 border border-neutral-200 space-y-1">
+                        <span class="font-semibold text-neutral-800 block">所有構文</span>
+                        <div class="font-mono text-neutral-700">所有者-属格 + 所有物</div>
+                        <div class="text-neutral-500 font-mono">fanë paf <span class="font-sans">(私のりんご)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 21. 表記記号 -->
+            <div class="space-y-3">
+                <h3 class="text-base font-semibold text-neutral-800 border-b border-neutral-100 pb-1">21. 表記記号</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border border-neutral-200">
+                        <thead class="bg-neutral-100 border-b border-neutral-200 text-neutral-700">
+                            <tr><th class="p-2 border-r border-neutral-200">記号</th><th class="p-2">意味・用途</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-neutral-200 text-neutral-600 font-mono">
+                            <tr><td class="p-2 border-r border-neutral-200 text-black font-bold">,</td><td class="p-2 font-sans">文法的範囲・節の境界（su の作用範囲の終了）</td></tr>
+                            <tr><td class="p-2 border-r border-neutral-200 text-black font-bold">.</td><td class="p-2 font-sans">文の終了</td></tr>
+                            <tr><td class="p-2 border-r border-neutral-200 text-black font-bold">? / ¿ ～ ?</td><td class="p-2 font-sans">疑問文（簡易表記 / 正式表記）</td></tr>
+                            <tr><td class="p-2 border-r border-neutral-200 text-black font-bold">! / ¡ ～ !</td><td class="p-2 font-sans">感嘆・命令（簡易表記 / 正式表記）</td></tr>
+                            <tr><td class="p-2 border-r border-neutral-200 text-black font-bold">^</td><td class="p-2 font-sans">重複する音を省略する記号（発音上の変化なし）</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- まとめ要約テーブル -->
+            <div class="space-y-3 pt-4 border-t border-neutral-200">
+                <h3 class="text-base font-semibold text-neutral-800">現在確定している文法 一覧</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border border-neutral-200">
+                        <thead class="bg-neutral-900 text-white">
+                            <tr>
+                                <th class="p-2 border-r border-neutral-700">項目</th>
+                                <th class="p-2">ルール</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-neutral-200 text-neutral-700">
+                            <tr><td class="p-2 font-semibold border-r border-neutral-200">語順</td><td class="p-2 font-mono">OSV</td></tr>
+                            <tr><td class="p-2 font-semibold border-r border-neutral-200">全否定</td><td class="p-2 font-mono">動詞直前に su</td></tr>
+                            <tr><td class="p-2 font-semibold border-r border-neutral-200">Yes/No疑問</td><td class="p-2 font-mono">¿ O S V su V ?</td></tr>
+                            <tr><td class="p-2 font-semibold border-r border-neutral-200">時制マーカー</td><td class="p-2">文末 (misa / mika / mito)</td></tr>
+                            <tr><td class="p-2 font-semibold border-r border-neutral-200">相マーカー</td><td class="p-2">文頭 (rina / rima / ripo / rito / rita)</td></tr>
+                            <tr><td class="p-2 font-semibold border-r border-neutral-200">対格 / 属格</td><td class="p-2 font-mono">-nü / -në</td></tr>
+                            <tr><td class="p-2 font-semibold border-r border-neutral-200">コピュラ / 存在</td><td class="p-2 font-mono">mariza / ren</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 例文 セクション (font.ttf 適用場所) -->
+        <section id="examples" class="scroll-mt-24 space-y-8">
+            <div class="border-b border-neutral-200 pb-3 flex items-baseline justify-between">
+                <h2 class="text-xl font-medium tracking-tight text-neutral-900">例文</h2>
+                <span class="text-xs font-mono text-neutral-400">03 / EXAMPLES</span>
+            </div>
+
+            <div class="space-y-12">
+                <!-- 例文 1 -->
+                <div class="border-b border-neutral-100 pb-8 space-y-4">
+                    <span class="text-xs font-mono text-neutral-400 block">Ex. 01 (Yes/No疑問文)</span>
+                    
+                    <!-- custom-language-font クラスにより font.ttf が適用されます -->
+                    <div class="custom-language-font text-3xl sm:text-4xl text-neutral-900 py-2 leading-relaxed">
+                        ¿ paf fa kam su kam ?
+                    </div>
+                    
+                    <div class="space-y-1.5 text-xs sm:text-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center text-neutral-600">
+                            <span class="w-24 text-xs font-mono text-neutral-400 uppercase">YOMI:</span>
+                            <span class="font-mono text-neutral-800">¿ paf fa kam su kam ?</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center text-neutral-600">
+                            <span class="w-24 text-xs font-mono text-neutral-400 uppercase">TRANSLATION:</span>
+                            <span class="font-light text-neutral-700">私はリンゴを食べますか？</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 例文 2 -->
+                <div class="border-b border-neutral-100 pb-8 space-y-4">
+                    <span class="text-xs font-mono text-neutral-400 block">Ex. 02 (所有構文 + OSV)</span>
+                    
+                    <!-- custom-language-font クラス -->
+                    <div class="custom-language-font text-3xl sm:text-4xl text-neutral-900 py-2 leading-relaxed">
+                        fanë paf fa kam.
+                    </div>
+                    
+                    <div class="space-y-1.5 text-xs sm:text-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center text-neutral-600">
+                            <span class="w-24 text-xs font-mono text-neutral-400 uppercase">YOMI:</span>
+                            <span class="font-mono text-neutral-800">fanë paf fa kam.</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center text-neutral-600">
+                            <span class="w-24 text-xs font-mono text-neutral-400 uppercase">TRANSLATION:</span>
+                            <span class="font-light text-neutral-700">私は私のリンゴを食べる。</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 例文 3 -->
+                <div class="border-b border-neutral-100 pb-8 space-y-4">
+                    <span class="text-xs font-mono text-neutral-400 block">Ex. 03 (場所付き存在文)</span>
+                    
+                    <!-- custom-language-font クラス -->
+                    <div class="custom-language-font text-3xl sm:text-4xl text-neutral-900 py-2 leading-relaxed">
+                        hosa ni ren.
+                    </div>
+                    
+                    <div class="space-y-1.5 text-xs sm:text-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center text-neutral-600">
+                            <span class="w-24 text-xs font-mono text-neutral-400 uppercase">YOMI:</span>
+                            <span class="font-mono text-neutral-800">hosa ni ren.</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:items-center text-neutral-600">
+                            <span class="w-24 text-xs font-mono text-neutral-400 uppercase">TRANSLATION:</span>
+                            <span class="font-light text-neutral-700">彼は家にいる。</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- フッター -->
+    <footer class="border-t border-neutral-200 py-12 text-center text-neutral-400 text-xs tracking-widest uppercase">
+        <p>&copy; シェリア語サイト</p>
+    </footer>
+
+    <!-- JS: モバイルメニュー制御 -->
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        const menuLinks = menu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
